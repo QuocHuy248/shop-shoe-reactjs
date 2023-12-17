@@ -1,0 +1,73 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+input {
+    &:focus::-webkit-input-placeholder {
+        transition: opacity 0.5s 0.5s ease !important;
+        opacity: 0.35;
+    }
+}
+.product .cards .card .avatar img {
+    width: 183px;
+    height: 122px;
+}
+.avatar {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.fa-star {
+    color: yellow;
+}
+
+.old-price p {
+    text-decoration: line-through;
+}
+.card-body {
+    text-align: center;
+}
+.price-card {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+#color_0 {
+    background-image: linear-gradient(to right, red, green);
+}
+.w-180 {
+    min-width: 180px;
+}
+.w-400 {
+    width: 400px;
+}
+.text-align-start {
+    text-align: start;
+}
+.w-16-h-17-p-10 {
+    width: 16rem;
+    height: 17rem;
+    padding: 10px;
+}
+body {
+    font-size: 15px;
+}
+.w-30 {
+    size: 40px;
+}
+.avatar-w20-h10 {
+    width: 30px;
+    height: 20px;
+}
+.font-edit {
+    font-size: larger;
+    font-style: inherit;
+    font-weight: bold;
+}
+.content-center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
