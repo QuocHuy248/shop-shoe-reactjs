@@ -12,20 +12,48 @@ export default function EditPage({ sortProducts }) {
     const [products, setProducts] = useState([]);
     const [show, setShow] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
+    const CLOUD_NAME = "dzw2dttfc";
+    const UPLOAD_PRESET = "nllxofqr";
+    const [url, setUrl] = useState();
 
+    const handleImageChange = async (event) => {
+        const file = event.target.files[0];
+        const image = file;
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", UPLOAD_PRESET);
+        data.append("cloud_name", CLOUD_NAME);
+        data.append("folder", "Cloudinary-React");
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+            method: "POST",
+            body: data,
+        });
+        if (response.ok) {
+            const res = await response.json();
+            console.log(res.secure_url);
+            setProduct({
+                ...product,
+                img: res.secure_url,
+            });
+        }
+    };
     const handleCloseModalDelete = () => {
         setShowModalDelete(false);
     };
     const handleDeleteProduct = async () => {
-        const deleteProduct = await ProductService.delete(product.id);
+        await ProductService.delete(product.id);
         const newProducts = products.filter((item) => item.id !== product.id);
         console.log(newProducts);
         setProducts(newProducts);
         toast.success("Delete Product Successfully");
     };
-    const handleUpdateProducts = async (obj) => {
-        const index = products.findIndex((item) => item.id === obj.id);
-        const updatedProduct = await ProductService.edit(obj, obj.id);
+    const handleUpdateProducts = async () => {
+        const index = products.findIndex((item) => item.id === product.id);
+
+        const updatedProduct = await ProductService.edit(product, product.id);
+
         console.log(updatedProduct);
         const newProducts = [...products];
         newProducts[index] = updatedProduct;
@@ -120,6 +148,8 @@ export default function EditPage({ sortProducts }) {
                 </tbody>
             </table>
             <ModalUpdateProduct
+                url={url}
+                handleImageChange={handleImageChange}
                 show={show}
                 handleChangeProduct={handleChangeProduct}
                 handleCloseModal={handleCloseModal}

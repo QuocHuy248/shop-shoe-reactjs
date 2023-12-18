@@ -5,8 +5,8 @@ export default function HeaderLayout() {
     return (
         <div className="container d-flex  border-bottom py-2 mt-2">
             <div className="d-flex align-items-center w-180">
-                <a href="#" className="">
-                    <i className="fas fa-cart-plus fa-lg"></i> Dash Board
+                <a href="/" className="">
+                    <i className="fas fa-cart-plus fa-lg"></i>Shoe shop
                 </a>
             </div>
             <div className="d-flex flex-grow-1 justify-content-end">
@@ -17,7 +17,7 @@ export default function HeaderLayout() {
                     <div className="dropdown">
                         <a
                             role="button"
-                            className="dropdown-toggle"
+                            // className="dropdown-toggle"
                             href="#"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -32,7 +32,7 @@ export default function HeaderLayout() {
                             <div className="dropdown-divider"></div>
                             <Link to="/">Home Page</Link>
                             <div className="dropdown-divider"></div>
-                            <Link to="/dashBoard/products">Dashboard</Link>
+                            <Link to="/dashboard/products">Dashboard</Link>
                             <div className="dropdown-divider"></div>
                             <Link to="/cartOrder/carts">Cart</Link>
                             <div className="dropdown-divider"></div>

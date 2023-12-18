@@ -5,6 +5,8 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import ProductService from "../../service/productService";
 
 export default function ModalUpdateProduct({
+    url,
+    handleImageChange,
     show,
     handleCloseModal,
     handleUpdateProducts,
@@ -119,10 +121,12 @@ export default function ModalUpdateProduct({
                                 </label>
                                 <input
                                     name="prevPrice"
-                                    type="text"
+                                    type="number"
                                     className="form-control"
                                     defaultValue={product.prevPrice}
                                     onChange={handleChangeProduct}
+                                    min="1"
+                                    max="800"
                                 />
                             </div>
                             <div className="col-lg-6">
@@ -131,24 +135,34 @@ export default function ModalUpdateProduct({
                                 </label>
                                 <input
                                     name="newPrice"
-                                    type="text"
+                                    type="number"
                                     className="form-control"
                                     defaultValue={product.newPrice}
                                     onChange={handleChangeProduct}
+                                    min="1"
+                                    max="800"
                                 />
                             </div>
                         </div>
                         <div className="row py-1">
-                            <div className="col-lg-6">
-                                <label htmlFor="" className="font-edit">
-                                    Img URL
+                            <div className="col-lg-3 ">
+                                <label className="font-edit" htmlFor="fileInput">
+                                    Img
+                                    <img
+                                        src={product.img}
+                                        alt=""
+                                        width="200px"
+                                        height="120px"
+                                        className="row ps-3"
+                                    />
                                 </label>
                                 <input
+                                    hidden
+                                    type="file"
+                                    className="form-control ps-1"
+                                    id="fileInput"
                                     name="img"
-                                    type="text"
-                                    className="form-control"
-                                    defaultValue={product.img}
-                                    onChange={handleChangeProduct}
+                                    onChange={handleImageChange}
                                 />
                             </div>
                         </div>
@@ -161,7 +175,7 @@ export default function ModalUpdateProduct({
                     <Button
                         variant="primary"
                         onClick={() => {
-                            handleUpdateProducts(product);
+                            handleUpdateProducts();
                             handleCloseModal();
                         }}
                     >

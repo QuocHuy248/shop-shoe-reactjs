@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import ProductService from "../service/productService";
 import { toast } from "react-toastify";
+import { AppContext } from "./myContext/AppContext";
+import { Link } from "react-router-dom";
 
 export default function Card(props) {
+    const { idProduct, setIdProduct } = useContext(AppContext);
+
     const product = props.data;
     const addtoCart = async (id) => {
         const cartDetails = await ProductService.getAllCartDetail();
@@ -35,8 +39,15 @@ export default function Card(props) {
     return (
         <div className="cards col-md-3 mb-4 px-2">
             <div className="card pt-2 w-16-h-17-p-10">
-                <div className="avatar">
-                    <img className="card-img-top" src={product.img} alt="Card image cap" />
+                <div className="avatar cur-pointer">
+                    <Link
+                        to="/productDetail"
+                        onClick={() => {
+                            setIdProduct(product.id);
+                        }}
+                    >
+                        <img className="card-img-top" src={product.img} alt="Card image cap " />
+                    </Link>
                 </div>
                 <div className="card-body">
                     <h6 className="">{product.title}</h6>
@@ -55,7 +66,7 @@ export default function Card(props) {
                         <div className="new-price">
                             <p>{product.newPrice}</p>
                         </div>
-                        <div className="add-cart" onClick={() => addtoCart(product.id)}>
+                        <div className="add-cart cur-pointer" onClick={() => addtoCart(product.id)}>
                             <i className="fas fa-cart-plus"></i>
                         </div>
                     </div>

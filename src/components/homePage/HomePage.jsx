@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import ProductService from "../../service/productService";
 import ToastCustom from "../ToastCustom";
+import { AppContext } from "../myContext/AppContext";
 
 export default function HomePage({ sortProducts }) {
     const [categories, setCategories] = useState([]);
@@ -81,8 +82,8 @@ export default function HomePage({ sortProducts }) {
         <div className="App">
             <div className="container d-flex  border-bottom py-2 mt-2">
                 <div className="d-flex align-items-center w-180">
-                    <a href="#" className="">
-                        <i className="fas fa-cart-plus fa-lg"></i> Shop Ecommerce
+                    <a href="/" className="">
+                        <i className="fas fa-cart-plus fa-lg"></i>Shoe shop
                     </a>
                 </div>
                 <div className="d-flex flex-grow-1 justify-content-between">
@@ -90,7 +91,7 @@ export default function HomePage({ sortProducts }) {
                         <input
                             type="search"
                             placeholder="Enter your shoes here"
-                            className="form-control form-control-sm w-400"
+                            className="form-control form-control-sm w-400 "
                             id="search"
                             onInput={(e) => {
                                 setSearchFilter(e.target.value.trim());
@@ -120,7 +121,7 @@ export default function HomePage({ sortProducts }) {
                                 <div className="dropdown-divider"></div>
                                 <Link to="/">Home Page</Link>
                                 <div className="dropdown-divider"></div>
-                                <Link to="/dashBoard/products">Dashboard</Link>
+                                <Link to="/dashboard/products">Dashboard</Link>
                                 <div className="dropdown-divider"></div>
                                 <Link to="/cartOrder/carts">Cart</Link>
                                 <div className="dropdown-divider"></div>
@@ -139,7 +140,7 @@ export default function HomePage({ sortProducts }) {
                                 <div className="form-check ">
                                     <input
                                         type="radio"
-                                        className="form-check-input"
+                                        className="form-check-input cur-pointer"
                                         id="cat_0"
                                         name="category"
                                         value="All"
@@ -162,7 +163,7 @@ export default function HomePage({ sortProducts }) {
                                         <div key={item.id} className="form-check">
                                             <input
                                                 type="radio"
-                                                className="form-check-input"
+                                                className="form-check-input cur-pointer"
                                                 id={`cat_${index + 1}`}
                                                 name="category"
                                                 value={item.name}
@@ -184,7 +185,7 @@ export default function HomePage({ sortProducts }) {
                                 <div className="form-check  ">
                                     <input
                                         type="radio"
-                                        className="form-check-input"
+                                        className="form-check-input cur-pointer"
                                         id="price_0"
                                         name="price"
                                         defaultChecked={true}
@@ -208,7 +209,7 @@ export default function HomePage({ sortProducts }) {
                                             <div className="form-check " key={index + 1}>
                                                 <input
                                                     type="radio"
-                                                    className="form-check-input"
+                                                    className="form-check-input cur-pointer"
                                                     id={`price_${index + 1}`}
                                                     name="price"
                                                     value={item.value}
@@ -231,7 +232,7 @@ export default function HomePage({ sortProducts }) {
                                 <div className="form-check  ">
                                     <input
                                         type="radio"
-                                        className="form-check-input"
+                                        className="form-check-input cur-pointer"
                                         id="color_0"
                                         value="All"
                                         name="color"
@@ -255,7 +256,7 @@ export default function HomePage({ sortProducts }) {
                                             <div className="form-check " key={item.id}>
                                                 <input
                                                     type="radio"
-                                                    className="form-check-input"
+                                                    className="form-check-input cur-pointer"
                                                     id={`color_${item.id}`}
                                                     name="color"
                                                     style={{

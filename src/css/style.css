@@ -80,3 +80,13 @@ body {
     padding: 4px 10px;
     width: 100px;
 }
+.cur-pointer {
+    cursor: pointer;
+}
+.product-detail-content {
+    display: flex;
+    justify-content: center;
+}
+.w-350 {
+    width: 350px;
+}
