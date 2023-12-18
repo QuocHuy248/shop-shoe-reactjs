@@ -81,21 +81,16 @@ export default function CartDetailPage() {
                                     <td>{item.product.category}</td>
                                     <td>
                                         <div className="cart-quantity">
-                                            <div>
-                                                <span onClick={() => decreaseCartDetail(item.id)}>
-                                                    -
-                                                </span>
+                                            <div onClick={() => decreaseCartDetail(item.id)}>
+                                                <span>-</span>
                                             </div>
                                             <div>
                                                 {" "}
                                                 <span>{item.quantity}</span>
                                             </div>
-
-                                            <div>
+                                            <div onClick={() => increaseCartDetail(item.id)}>
                                                 {" "}
-                                                <span onClick={() => increaseCartDetail(item.id)}>
-                                                    +
-                                                </span>
+                                                <span>+</span>
                                             </div>
                                         </div>
                                     </td>
