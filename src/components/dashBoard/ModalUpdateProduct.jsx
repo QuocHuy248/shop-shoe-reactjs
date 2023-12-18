@@ -2,16 +2,32 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import React, { useEffect, useState } from "react";
 import ModalTitle from "react-bootstrap/ModalTitle";
+import ProductService from "../../service/productService";
 
 export default function ModalUpdateProduct({
     show,
     handleCloseModal,
     handleUpdateProducts,
-    data,
     product,
     handleChangeProduct,
 }) {
-    console.log(data);
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [companies, setCompanies] = useState([]);
+
+    const getAll = async () => {
+        const categoriesData = await ProductService.getAllCategories();
+        const companiesData = await ProductService.getAllCompanies();
+        const colorsData = await ProductService.getAllColors();
+        setCompanies(companiesData);
+        setCategories(categoriesData);
+        setColors(colorsData);
+        console.log(colorsData);
+    };
+    useEffect(() => {
+        getAll();
+    }, []);
+
     return (
         <>
             <Modal size="lg" centered show={show} onHide={handleCloseModal}>
@@ -44,7 +60,7 @@ export default function ModalUpdateProduct({
                                     defaultValue={product.company}
                                     onChange={handleChangeProduct}
                                 >
-                                    {data.companies.map((item, index) => {
+                                    {companies.map((item, index) => {
                                         return (
                                             <option value={item.value} key={index}>
                                                 {item.name}
@@ -66,7 +82,7 @@ export default function ModalUpdateProduct({
                                     value={product.category}
                                     onChange={handleChangeProduct}
                                 >
-                                    {data.categories.map((item) => {
+                                    {categories.map((item) => {
                                         return (
                                             <option value={item.name} key={item.id}>
                                                 {item.name}
@@ -86,7 +102,7 @@ export default function ModalUpdateProduct({
                                     value={product.color}
                                     onChange={handleChangeProduct}
                                 >
-                                    {data.colors.map((item) => {
+                                    {colors.map((item) => {
                                         return (
                                             <option value={item.name} key={item.id}>
                                                 {item.name}

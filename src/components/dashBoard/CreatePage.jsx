@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ToastCustom from "../ToastCustom";
-export default function CreatePage({ data, setData }) {
+export default function CreatePage({ data }) {
     const [maxId, setMaxId] = useState(0);
     const [product, setProduct] = useState({ star: 4, reviews: 123 });
-    const [products, setProducts] = useState(data.products);
+    const [products, setProducts] = useState([]);
 
     const findMaxId = () => {
         let maxIdProduct = 0;
@@ -39,10 +39,6 @@ export default function CreatePage({ data, setData }) {
 
         products.push(product);
 
-        setData({
-            ...data,
-            products: newProducts,
-        });
         toast.success("Create Product Successfully");
         findMaxId();
     };

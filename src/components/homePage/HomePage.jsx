@@ -2,12 +2,14 @@ import React from "react";
 import Card from "../card";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import ProductService from "../../service/productService";
+import ToastCustom from "../ToastCustom";
 
-export default function HomePage({ data, sortProducts }) {
+export default function HomePage({ sortProducts }) {
     const [categories, setCategories] = useState([]);
     const [prices, setPrices] = useState([]);
     const [colors, setColors] = useState([]);
-
     const [companies, setCompanies] = useState([]);
     const [products, setProducts] = useState([]);
 
@@ -26,34 +28,49 @@ export default function HomePage({ data, sortProducts }) {
     const [searchStatus, setSearchStatus] = useState(false);
 
     const HandleFilterProduct = () => {
-        const productListFilter = products.filter(
-            (item) =>
-                (companyFilter === "All" ||
-                    item.company.toLowerCase() === companyFilter.toLowerCase()) &&
-                (item.title.toLowerCase().includes(searchFilter.toLowerCase()) ||
-                    item.company.toLowerCase().includes(searchFilter.toLowerCase()) ||
-                    item.category.toLowerCase().includes(searchFilter.toLowerCase()) ||
-                    item.color.toLowerCase().includes(searchFilter.toLowerCase())) &&
-                (priceFilter === "0,0" ||
-                    (priceFilter === "150,150" && item.newPrice > 150) ||
-                    (item.newPrice > parseInt(priceFilter.split(",")[0]) &&
-                        item.newPrice <= parseInt(priceFilter.split(",")[1]))) &&
-                (colorFilter === "All" || item.color.toLowerCase() === colorFilter.toLowerCase()) &&
-                (categoryFilter === "All" ||
-                    item.category.toLowerCase() === categoryFilter.toLowerCase())
-        );
-        setProductFilter(productListFilter);
+        console.log(companyFilter);
+        console.log(searchFilter);
+        console.log(priceFilter);
+        console.log(colorFilter);
+        console.log(categoryFilter);
+        if (products.length != 0) {
+            const productListFilter = products.filter(
+                (item) =>
+                    (companyFilter === "All" ||
+                        item.company.toLowerCase() === companyFilter.toLowerCase()) &&
+                    (item.title.toLowerCase().includes(searchFilter.toLowerCase()) ||
+                        item.company.toLowerCase().includes(searchFilter.toLowerCase()) ||
+                        item.category.toLowerCase().includes(searchFilter.toLowerCase()) ||
+                        item.color.toLowerCase().includes(searchFilter.toLowerCase())) &&
+                    (priceFilter === "0,0" ||
+                        (priceFilter === "150,150" && item.newPrice > 150) ||
+                        (item.newPrice > parseInt(priceFilter.split(",")[0]) &&
+                            item.newPrice <= parseInt(priceFilter.split(",")[1]))) &&
+                    (colorFilter === "All" ||
+                        item.color.toLowerCase() === colorFilter.toLowerCase()) &&
+                    (categoryFilter === "All" ||
+                        item.category.toLowerCase() === categoryFilter.toLowerCase())
+            );
+            console.log(productListFilter);
+            setProductFilter(productListFilter);
+        }
     };
 
+    const getAll = async () => {
+        const productData = await ProductService.getAllProducts();
+        const categoriesData = await ProductService.getAllCategories();
+        const companiesData = await ProductService.getAllCompanies();
+        const pricesData = await ProductService.getAllPrices();
+        const colorsData = await ProductService.getAllColors();
+        setProducts(productData);
+        setCompanies(companiesData);
+        setPrices(pricesData);
+        setCategories(categoriesData);
+        setColors(colorsData);
+        console.log(pricesData);
+    };
     useEffect(() => {
-        async function fetchData() {
-            setCategories(data.categories);
-            setPrices(data.prices);
-            setColors(data.colors);
-            setCompanies(data.companies);
-            setProducts(data.products);
-        }
-        fetchData();
+        getAll();
     }, []);
 
     useEffect(() => {
@@ -105,6 +122,8 @@ export default function HomePage({ data, sortProducts }) {
                                 <div className="dropdown-divider"></div>
                                 <Link to="/dashBoard/products">Dashboard</Link>
                                 <div className="dropdown-divider"></div>
+                                <Link to="/cartOrder/carts">Cart</Link>
+                                <div className="dropdown-divider"></div>
                                 <Link to="#">Logout</Link>
                             </div>
                         </div>
@@ -138,24 +157,25 @@ export default function HomePage({ data, sortProducts }) {
                                         All
                                     </label>
                                 </div>
-                                {categories.map((item) => (
-                                    <div key={item.id} className="form-check">
-                                        <input
-                                            type="radio"
-                                            className="form-check-input"
-                                            id={`cat_${item.id}`}
-                                            name="category"
-                                            value={item.name}
-                                            onChange={() => {
-                                                setCategoryStatus(true);
-                                                setCategoryFilter(item.name);
-                                            }}
-                                        />
-                                        <label htmlFor={`cat_${item.id}`} role="button">
-                                            {item.name}
-                                        </label>
-                                    </div>
-                                ))}
+                                {categories.length &&
+                                    categories.map((item, index) => (
+                                        <div key={item.id} className="form-check">
+                                            <input
+                                                type="radio"
+                                                className="form-check-input"
+                                                id={`cat_${index + 1}`}
+                                                name="category"
+                                                value={item.name}
+                                                onChange={() => {
+                                                    setCategoryStatus(true);
+                                                    setCategoryFilter(item.name);
+                                                }}
+                                            />
+                                            <label htmlFor={`cat_${index + 1}`} role="button">
+                                                {item.name}
+                                            </label>
+                                        </div>
+                                    ))}
                             </div>
                         </div>
                         <div className="price">
@@ -182,26 +202,27 @@ export default function HomePage({ data, sortProducts }) {
                                         All
                                     </label>
                                 </div>
-                                {prices.map((item, index) => {
-                                    return (
-                                        <div className="form-check " key={index + 1}>
-                                            <input
-                                                type="radio"
-                                                className="form-check-input"
-                                                id={`price_${index + 1}`}
-                                                name="price"
-                                                value={item.value}
-                                                onChange={() => {
-                                                    setPriceStatus(true);
-                                                    setPriceFilter(item.value);
-                                                }}
-                                            />
-                                            <label htmlFor={`price_${index + 1}`} role="button">
-                                                {item.name}
-                                            </label>
-                                        </div>
-                                    );
-                                })}
+                                {prices.length &&
+                                    prices.map((item, index) => {
+                                        return (
+                                            <div className="form-check " key={index + 1}>
+                                                <input
+                                                    type="radio"
+                                                    className="form-check-input"
+                                                    id={`price_${index + 1}`}
+                                                    name="price"
+                                                    value={item.value}
+                                                    onChange={() => {
+                                                        setPriceStatus(true);
+                                                        setPriceFilter(item.value);
+                                                    }}
+                                                />
+                                                <label htmlFor={`price_${index + 1}`} role="button">
+                                                    {item.name}
+                                                </label>
+                                            </div>
+                                        );
+                                    })}
                             </div>
                         </div>
                         <div className="color">
@@ -228,29 +249,30 @@ export default function HomePage({ data, sortProducts }) {
                                         All
                                     </label>
                                 </div>
-                                {colors.map((item) => {
-                                    return (
-                                        <div className="form-check " key={item.id}>
-                                            <input
-                                                type="radio"
-                                                className="form-check-input"
-                                                id={`color_${item.id}`}
-                                                name="color"
-                                                style={{
-                                                    backgroundColor: `${item.name}`,
-                                                }}
-                                                onChange={() => {
-                                                    setColorStatus(true);
-                                                    setColorFilter(item.name);
-                                                }}
-                                                value={item.name}
-                                            />
-                                            <label htmlFor={`color_${item.id}`} role="button">
-                                                {item.name}
-                                            </label>
-                                        </div>
-                                    );
-                                })}
+                                {colors.length &&
+                                    colors.map((item) => {
+                                        return (
+                                            <div className="form-check " key={item.id}>
+                                                <input
+                                                    type="radio"
+                                                    className="form-check-input"
+                                                    id={`color_${item.id}`}
+                                                    name="color"
+                                                    style={{
+                                                        backgroundColor: `${item.name}`,
+                                                    }}
+                                                    onChange={() => {
+                                                        setColorStatus(true);
+                                                        setColorFilter(item.name);
+                                                    }}
+                                                    value={item.name}
+                                                />
+                                                <label htmlFor={`color_${item.id}`} role="button">
+                                                    {item.name}
+                                                </label>
+                                            </div>
+                                        );
+                                    })}
                             </div>
                         </div>
                     </div>
@@ -271,25 +293,26 @@ export default function HomePage({ data, sortProducts }) {
                             >
                                 All product
                             </button>
-                            {companies.map((item) => {
-                                return (
-                                    <button
-                                        key={item.id}
-                                        className={`btn ${
-                                            companyStatus && companyFilter == item.name
-                                                ? "btn-secondary"
-                                                : "btn-outline-secondary"
-                                        } btn-recommend btn-sm ps-1 w-30`}
-                                        type="button"
-                                        onClick={() => {
-                                            setCompanyStatus(true);
-                                            setCompanyFilter(item.name);
-                                        }}
-                                    >
-                                        {item.name}
-                                    </button>
-                                );
-                            })}
+                            {companies.length &&
+                                companies.map((item) => {
+                                    return (
+                                        <button
+                                            key={item.id}
+                                            className={`btn ${
+                                                companyStatus && companyFilter == item.name
+                                                    ? "btn-secondary"
+                                                    : "btn-outline-secondary"
+                                            } btn-recommend btn-sm ps-1 w-30`}
+                                            type="button"
+                                            onClick={() => {
+                                                setCompanyStatus(true);
+                                                setCompanyFilter(item.name);
+                                            }}
+                                        >
+                                            {item.name}
+                                        </button>
+                                    );
+                                })}
                         </div>
                     </div>
                     <div
@@ -313,6 +336,7 @@ export default function HomePage({ data, sortProducts }) {
                     </div>
                 </div>
             </div>
+            <ToastCustom />
         </div>
     );
 }

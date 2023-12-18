@@ -71,3 +71,12 @@ body {
     justify-content: center;
     text-align: center;
 }
+.cart-quantity {
+    align-items: center;
+    background-color: #0006;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 10px;
+    width: 100px;
+}

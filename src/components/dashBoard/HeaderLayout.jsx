@@ -34,6 +34,8 @@ export default function HeaderLayout() {
                             <div className="dropdown-divider"></div>
                             <Link to="/dashBoard/products">Dashboard</Link>
                             <div className="dropdown-divider"></div>
+                            <Link to="/cartOrder/carts">Cart</Link>
+                            <div className="dropdown-divider"></div>
                             <Link to="#">Logout</Link>
                         </div>
                     </div>
