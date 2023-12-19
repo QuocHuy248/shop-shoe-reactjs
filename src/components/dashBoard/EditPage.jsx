@@ -12,6 +12,7 @@ export default function EditPage({ sortProducts }) {
     const [products, setProducts] = useState([]);
     const [show, setShow] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const CLOUD_NAME = "dzw2dttfc";
     const UPLOAD_PRESET = "nllxofqr";
     const [url, setUrl] = useState();
@@ -26,6 +27,7 @@ export default function EditPage({ sortProducts }) {
         data.append("upload_preset", UPLOAD_PRESET);
         data.append("cloud_name", CLOUD_NAME);
         data.append("folder", "Cloudinary-React");
+        setIsLoading(true);
         const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
             method: "POST",
             body: data,
@@ -37,6 +39,8 @@ export default function EditPage({ sortProducts }) {
                 ...product,
                 img: res.secure_url,
             });
+            setIsLoading(false);
+            toast.success("Load Image Successfully");
         }
     };
     const handleCloseModalDelete = () => {
@@ -90,7 +94,9 @@ export default function EditPage({ sortProducts }) {
         setShow(false);
     };
     const getAllProducts = async () => {
+        setIsLoading(true);
         const productsData = await ProductService.getAllProducts();
+        setIsLoading(false);
         setProducts(productsData);
     };
     useEffect(() => {
@@ -99,6 +105,8 @@ export default function EditPage({ sortProducts }) {
 
     return (
         <div className="flex-grow-1">
+            {isLoading && <span class="loader"></span>}
+
             <table className="table">
                 <thead>
                     <tr>

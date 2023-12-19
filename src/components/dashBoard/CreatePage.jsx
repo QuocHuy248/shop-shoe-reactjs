@@ -8,6 +8,8 @@ export default function CreatePage() {
     const [categories, setCategories] = useState([]);
     const [colors, setColors] = useState([]);
     const [companies, setCompanies] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
     const CLOUD_NAME = "dzw2dttfc";
     const UPLOAD_PRESET = "nllxofqr";
     const [url, setUrl] = useState(
@@ -66,6 +68,7 @@ export default function CreatePage() {
         data.append("upload_preset", UPLOAD_PRESET);
         data.append("cloud_name", CLOUD_NAME);
         data.append("folder", "Cloudinary-React");
+        setIsLoading(true);
         const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
             method: "POST",
             body: data,
@@ -74,10 +77,13 @@ export default function CreatePage() {
             const res = await response.json();
             console.log(res.secure_url);
             setUrl(res.secure_url);
+            setIsLoading(false);
+            toast.success("Load Image Successfully");
         }
     };
     return (
         <div className="flex-grow-1 px-2">
+            {isLoading && <span class="loader"></span>}
             <form action="" id="create-course-form">
                 <div className="row">
                     <div className="col-lg-6 ">

@@ -90,3 +90,12 @@ body {
 .w-350 {
     width: 350px;
 }
+.span-cart-detail {
+    width: 50px;
+    height: 50px;
+}
+.centered {
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+}

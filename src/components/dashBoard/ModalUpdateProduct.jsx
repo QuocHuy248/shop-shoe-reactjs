@@ -34,7 +34,7 @@ export default function ModalUpdateProduct({
         <>
             <Modal size="lg" centered show={show} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal create</Modal.Title>
+                    <Modal.Title>Update Product Modal</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form action="">

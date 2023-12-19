@@ -6,6 +6,8 @@ import axios from "axios";
 import ProductService from "../../service/productService";
 import ToastCustom from "../ToastCustom";
 import { AppContext } from "../myContext/AppContext";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function HomePage({ sortProducts }) {
     const [categories, setCategories] = useState([]);
@@ -338,6 +340,7 @@ export default function HomePage({ sortProducts }) {
                 </div>
             </div>
             <ToastCustom />
+            {!products.length && <span className="loader"></span>}
         </div>
     );
 }

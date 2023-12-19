@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "../src/css/style.css";
+import "../src/css/styleLoading.css";
 import "../node_modules/bootstrap/dist/js/bootstrap";
 import { BrowserRouter } from "react-router-dom";
 
