@@ -63,10 +63,10 @@ export default function CartDetailPage() {
                 </thead>
                 <tbody>
                     {cartDetails.length &&
-                        cartDetails.map((item) => {
+                        cartDetails.map((item, index) => {
                             return (
                                 <tr key={item.id}>
-                                    <th>{item.id}</th>
+                                    <th>{index}</th>
                                     <td>
                                         <img
                                             src={item.product.img}
